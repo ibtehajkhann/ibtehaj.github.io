@@ -1,0 +1,2272 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>index</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root, [data-theme="dark"] {
+      --bg: #0A0806;
+      --bg2: #100D08;
+      --bg3: #0d0b07;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(201,168,76,0.18);
+      --border2: rgba(201,168,76,0.35);
+      --text: #F5F0E8;
+      --text2: #EDE6D8;
+      --muted: #9A8E7A;
+      --gold: #C9A84C;
+      --gold-lt: #E8C97A;
+      --gold-dim: #8A6A28;
+      --hero-img-opacity: 0.55;
+      --img-filter: grayscale(15%) sepia(8%);
+      --card-bg: #0A0806;
+      --card-hover: #100D08;
+      --input-bg: rgba(255,255,255,0.04);
+      --nav-solid: rgba(10,8,6,0.97);
+      --toggle-bg: rgba(201,168,76,0.15);
+      --form-section-bg: #100D08;
+      --btn-primary-text: #0A0806;
+      --shadow: none;
+    }
+
+    [data-theme="light"] {
+      --bg: #FAF7F2;
+      --bg2: #F2EDE3;
+      --bg3: #EDE6D6;
+      --surface: rgba(0,0,0,0.03);
+      --border: rgba(139,100,20,0.2);
+      --border2: rgba(139,100,20,0.4);
+      --text: #1A1408;
+      --text2: #2A2010;
+      --muted: #7A6A50;
+      --gold: #9A7020;
+      --gold-lt: #B8882A;
+      --gold-dim: #C9A84C;
+      --hero-img-opacity: 0.25;
+      --img-filter: grayscale(5%) sepia(5%);
+      --card-bg: #FAF7F2;
+      --card-hover: #F2EDE3;
+      --input-bg: rgba(0,0,0,0.04);
+      --nav-solid: rgba(250,247,242,0.97);
+      --toggle-bg: rgba(139,100,20,0.12);
+      --form-section-bg: #F2EDE3;
+      --btn-primary-text: #FAF7F2;
+      --shadow: 0 2px 24px rgba(0,0,0,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      line-height: 1.7;
+      overflow-x: hidden;
+      transition: background 0.5s, color 0.5s;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 1.4rem 4rem;
+      background: linear-gradient(to bottom, var(--nav-solid), transparent);
+      transition: background 0.5s, backdrop-filter 0.5s;
+    }
+    nav.scrolled {
+      background: var(--nav-solid);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      list-style: none;
+      flex: 1;
+      justify-content: center;
+    }
+    .nav-links > li { position: relative; }
+    .nav-links.open > li {
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links a {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+      opacity: 0.65;
+      transition: opacity 0.3s, color 0.3s;
+      display: block;
+    }
+    .nav-links.open a {
+      padding: 0.5rem 0;
+      margin: 0;
+    }
+    .nav-links a:hover { opacity: 1; color: var(--gold); }
+
+    .dropdown-content {
+      display: block;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 200px;
+      background: rgba(10, 8, 6, 0.75);
+      border: 1px solid var(--border);
+      list-style: none;
+      padding: 0.5rem 0;
+      backdrop-filter: blur(12px);
+      z-index: 200;
+      opacity: 0;
+      transform: translateY(-8px);
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease;
+      pointer-events: none;
+    }
+    [data-theme="light"] .dropdown-content {
+      background: rgba(250, 247, 242, 0.75);
+    }
+    .dropdown:hover .dropdown-content {
+      opacity: 1;
+      transform: translateY(0);
+      max-height: 500px;
+      pointer-events: auto;
+    }
+    .dropdown-content li a {
+      display: block;
+      padding: 0.6rem 1.2rem;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text) !important;
+      opacity: 0.7;
+      text-decoration: none;
+      transition: opacity 0.3s, color 0.3s, background 0.3s;
+    }
+    .dropdown-content li a:hover {
+      opacity: 1;
+      color: var(--gold) !important;
+      background: rgba(201,168,76,0.07);
+    }
+
+    .nav-theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--toggle-bg);
+      border: 1px solid var(--border2);
+      padding: 0.45rem 0.9rem;
+      gap: 0.6rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-radius: 2px;
+      margin-left: auto;
+    }
+    .nav-theme-toggle:hover { border-color: var(--accent); background: rgba(10,132,255,0.16); }
+    .theme-icon { width: 18px; height: 18px; position: relative; flex-shrink: 0; }
+    .icon-sun, .icon-moon { position: absolute; inset: 0; transition: opacity 0.3s, transform 0.4s; }
+    .icon-sun svg, .icon-moon svg { width: 18px; height: 18px; fill: var(--gold); }
+    [data-theme="dark"] .icon-sun  { opacity: 1; transform: rotate(0deg); }
+    [data-theme="dark"] .icon-moon { opacity: 0; transform: rotate(90deg); }
+    [data-theme="light"] .icon-sun  { opacity: 0; transform: rotate(-90deg); }
+    [data-theme="light"] .icon-moon { opacity: 1; transform: rotate(0deg); }
+    .toggle-label-nav {
+      display: inline-block;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .nav-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--border2);
+      background: transparent;
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      flex-shrink: 0;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .nav-toggle:hover { border-color: var(--gold); background: rgba(201,168,76,0.1); }
+    .nav-toggle span {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 18px; height: 2px;
+      background: var(--text);
+      transform: translate(-50%, -50%);
+      box-shadow: 0 -6px 0 var(--text), 0 6px 0 var(--text);
+      transition: transform 0.3s, background 0.3s;
+    }
+    .nav-links.open {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      width: 100%;
+      background: var(--nav-solid);
+      padding: 1rem 2rem 1.5rem;
+      gap: 1rem;
+      z-index: 99;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+    .nav-links.open .back-btn {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      cursor: pointer;
+      padding: 0.6rem 0;
+      margin: 0 0 0.8rem 0;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      background: transparent;
+      list-style: none;
+      width: 100%;
+      text-align: center;
+    }
+    .nav-links:not(.open) .back-btn { display: none !important; }
+    .nav-links.open .dropdown-content {
+      position: static;
+      border: none;
+      background: transparent;
+      padding: 0.5rem 0;
+      box-shadow: none;
+      max-height: none;
+      transform: none;
+      opacity: 1;
+      pointer-events: auto;
+      transition: none;
+    }
+    .nav-links.open .dropdown-content li a {
+      display: block;
+      padding: 0.5rem 1rem;
+      font-size: 0.62rem;
+      color: var(--text) !important;
+      opacity: 0.8;
+      margin-left: 0.8rem;
+      border-left: 2px solid var(--border);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .nav-links.open .dropdown-content li a:hover {
+      opacity: 1;
+      color: var(--gold) !important;
+      border-left-color: var(--gold);
+      margin-left: 1rem;
+    }
+    .nav-links.open.submenu {
+      /* When sub-menu is open, hide main items except back and dropdown-content */
+    }
+    .nav-links.open.submenu > li:not(.back-btn):not(.dropdown) {
+      display: none;
+    }
+    .nav-links.open.submenu .dropdown {
+      display: none;
+    }
+    .nav-links.open.submenu .dropdown-content[style*="display: block"],
+    .nav-links.open.submenu .dropdown:has(> .dropdown-content[style*="display: block"]) {
+      display: block !important;
+    }
+    .nav-links.open.submenu .dropdown:has(> .dropdown-content[style*="display: block"]) {
+      display: flex !important;
+      flex-direction: column;
+    }
+    .nav-links.open.submenu .dropdown:has(> .dropdown-content[style*="display: block"]) > .dropbtn {
+      display: none;
+      
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 700px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 4rem 5rem;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      transition: background 0.5s;
+      z-index: 0;
+    }
+    [data-theme="dark"] .hero-bg {
+      background: radial-gradient(ellipse at 60% 40%, rgba(201,168,76,0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse at 20% 80%, rgba(201,168,76,0.05) 0%, transparent 50%),
+                  linear-gradient(160deg, #1a1208 0%, #0A0806 50%, #0d0b07 100%);
+    }
+    [data-theme="light"] .hero-bg {
+      background: radial-gradient(ellipse at 60% 40%, rgba(139,100,20,0.07) 0%, transparent 60%),
+                  linear-gradient(160deg, #e8dcc8 0%, #FAF7F2 50%, #f0e8d8 100%);
+    }
+    .hero-lines { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+    .hero-lines svg { width: 100%; height: 100%; }
+    .hero-img-area {
+      position: absolute;
+      right: 0; top: 0; bottom: 0;
+      width: 48%;
+      background:
+        linear-gradient(to right, var(--bg) 0%, transparent 30%),
+        url('Hero Section Pic.jpeg') center top/cover no-repeat;
+      opacity: var(--hero-img-opacity);
+      transition: opacity 0.5s, position 0.3s, width 0.3s, height 0.3s;
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .hero-tag {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      opacity: 0;
+      animation: fadeUp 1s 0.3s forwards;
+    }
+    .hero-tag::before { content: ''; display: inline-block; width: 40px; height: 1px; background: var(--gold); }
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(3.5rem, 7vw, 6.5rem);
+      font-weight: 400;
+      line-height: 1.0;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      max-width: 700px;
+      opacity: 0;
+      animation: fadeUp 1s 0.5s forwards;
+    }
+    .hero-title span { color: var(--gold); font-style: italic; }
+    .hero-subtitle {
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--muted);
+      margin-top: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 1s 0.7s forwards;
+    }
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 1s 0.9s forwards;
+    }
+    .btn-primary {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--btn-primary-text);
+      background: var(--gold);
+      border: none;
+      padding: 1rem 2.2rem;
+      text-decoration: none;
+      transition: background 0.3s, transform 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary:hover { background: var(--gold-lt); transform: translateY(-1px); }
+    .btn-ghost {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 1rem 2.2rem;
+      text-decoration: none;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold-lt); }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem; right: 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0;
+      animation: fadeIn 1s 1.4s forwards;
+    }
+    .scroll-line {
+      width: 1px; height: 50px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    /* ─── QUOTE ─── */
+    .quote-section {
+      padding: 6rem 4rem;
+      display: flex;
+      justify-content: center;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse at center, rgba(201,168,76,0.04) 0%, transparent 70%);
+      transition: all 0.5s;
+    }
+    .quote-inner { max-width: 800px; text-align: center; }
+    .quote-mark {
+      font-family: 'Cinzel', serif;
+      font-size: 5rem;
+      color: var(--gold);
+      line-height: 0.5;
+      display: block;
+      margin-bottom: 1.5rem;
+      opacity: 0.5;
+    }
+    .quote-text {
+      font-style: italic;
+      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      color: var(--text2);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+    .quote-author {
+      margin-top: 1.5rem;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ─── SECTION COMMON ─── */
+    .section-label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--border2), transparent);
+    }
+    .section-heading {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+    .section-heading em { color: var(--gold); font-style: italic; }
+
+    /* ─── ABOUT SECTION ─── */
+    .about-section {
+      padding: 7rem 4rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .about-subsection {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-bottom: 5rem;
+      padding-bottom: 5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .about-subsection:last-of-type { border-bottom: none; }
+    .about-subsection.reverse { direction: rtl; }
+    .about-subsection.reverse > * { direction: ltr; }
+
+    .subsection-img-wrap {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg2);
+    }
+    .subsection-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: contain;
+      object-position: center center;
+      filter: var(--img-filter);
+      transition: filter 0.5s, transform 0.6s;
+      display: block;
+      max-height: 420px;
+      background: var(--bg2);
+    }
+    .subsection-img-wrap:hover .subsection-img { transform: scale(1.02); filter: grayscale(0%) sepia(3%); }
+    .subsection-img-frame {
+      position: absolute;
+      top: -1rem; right: -1rem; bottom: 1rem; left: 1rem;
+      border: 1px solid var(--border);
+      pointer-events: none;
+      transition: border-color 0.5s;
+      z-index: -1;
+    }
+    .about-subsection.reverse .subsection-img-frame {
+      top: -1rem; left: -1rem; bottom: 1rem; right: 1rem;
+    }
+
+    /* ─── MBP / KSPA — same grid style as about-subsection ─── */
+    .prod-subsection {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-bottom: 5rem;
+      padding-bottom: 5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .prod-subsection.reverse { direction: rtl; }
+    .prod-subsection.reverse > * { direction: ltr; }
+
+    .prod-img-wrap {
+      position: relative;
+      overflow: hidden;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      transition: border-color 0.4s;
+    }
+    .prod-img-wrap:hover { border-color: var(--gold-dim); }
+    .prod-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: contain;
+      object-position: center center;
+      filter: var(--img-filter);
+      transition: filter 0.5s, transform 0.6s;
+      display: block;
+      background: var(--bg2);
+    }
+    .prod-img-wrap:hover .prod-img { transform: scale(1.02); filter: grayscale(0%) sepia(3%); }
+
+    .prod-content-wrap { }
+    .prod-tag {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .prod-tag::before { content: ''; width: 30px; height: 1px; background: var(--gold); display: inline-block; }
+
+    .about-body { font-size: 1.05rem; color: var(--muted); line-height: 1.9; }
+    .about-body p + p { margin-top: 1rem; }
+
+    .about-full {
+      margin-bottom: 5rem;
+      padding-bottom: 5rem;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      transition: border-color 0.5s;
+    }
+    .stat-num { font-family: 'Cinzel', serif; font-size: 2.2rem; color: var(--gold); font-weight: 400; line-height: 1; }
+    .stat-label { font-family: 'Raleway', sans-serif; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-top: 0.4rem; }
+
+    /* ─── PATRON SECTION ─── */
+    .patron-subsection {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      align-items: start;
+      margin-bottom: 5rem;
+      padding-bottom: 5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .patron-badge {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      position: sticky;
+      top: 100px;
+      z-index: 1;
+    }
+    .patron-badge-label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .patron-badge-name {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      color: var(--text);
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+    .patron-badge-role {
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .patron-badge-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      margin: 1.2rem auto;
+      opacity: 0.5;
+    }
+    .patron-content { }
+    .patron-content .about-body p + p { margin-top: 1rem; }
+    .patron-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .patron-tag {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.8rem;
+    }
+
+    /* ─── DANCE FORMS ─── */
+    .forms-section { padding: 7rem 4rem; }
+    .forms-header { max-width: 1200px; margin: 0 auto 4rem; }
+    .forms-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      transition: background 0.5s, border-color 0.5s;
+    }
+    .form-card {
+      background: var(--card-bg);
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: background 0.4s, transform 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+    }
+    .form-card::before {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s;
+    }
+    .form-card:hover { background: var(--card-hover); transform: translateY(-10px) scale(1.02); }
+    .form-card:hover::before { transform: scaleX(1); }
+    .form-img {
+      width: 100%; aspect-ratio: 4/3; object-fit: cover;
+      margin-bottom: 1.5rem;
+      filter: var(--img-filter);
+      transition: filter 0.5s;
+    }
+    .form-card:hover .form-img { filter: grayscale(0%) sepia(3%); }
+    .form-number { font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 0.2em; color: var(--gold-dim); margin-bottom: 0.5rem; }
+    .form-name { font-family: 'Cinzel', serif; font-size: 1.3rem; font-weight: 600; color: var(--text); margin-bottom: 0.6rem; letter-spacing: 0.05em; }
+    .form-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+    /* ─── GALLERY ─── */
+    .gallery-section { padding: 7rem 4rem; max-width: 1400px; margin: 0 auto; }
+    .gallery-header { margin-bottom: 3rem; }
+
+    /* ─── PROJECTS GRID ─── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: border-color 0.4s, transform 0.4s;
+    }
+    .project-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+    .project-iframe-wrap {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
+      background: #000;
+    }
+    .project-iframe-wrap iframe {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      border: none;
+    }
+    .project-content { padding: 1.8rem 2rem 2rem; }
+    .project-number {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .project-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 0.8rem;
+      line-height: 1.2;
+    }
+    .project-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.8; }
+
+    /* ─── MEDIA / ARTICLES SECTION ─── */
+    .media-section {
+      padding: 7rem 4rem;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      transition: background 0.5s, border-color 0.5s;
+    }
+    .media-inner { max-width: 1400px; margin: 0 auto; }
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .media-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: border-color 0.4s, transform 0.4s;
+      display: flex;
+      flex-direction: column;
+    }
+    .media-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+    .media-card-type {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--btn-primary-text);
+      background: var(--gold);
+      padding: 0.35rem 0.8rem;
+      display: inline-block;
+      align-self: flex-start;
+      margin: 1.2rem 1.5rem 0;
+    }
+    .media-card-content { padding: 1rem 1.5rem 1.5rem; flex: 1; display: flex; flex-direction: column; }
+    .media-card-source {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+      opacity: 0.7;
+    }
+    .media-card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 0.8rem;
+    }
+    .media-card-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+      flex: 1;
+      margin-bottom: 1.2rem;
+    }
+    .media-card-link {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: gap 0.3s, opacity 0.3s;
+      align-self: flex-start;
+    }
+    .media-card-link::after { content: '→'; }
+    .media-card-link:hover { gap: 0.9rem; opacity: 1; }
+
+    .media-card.podcast {
+      background: linear-gradient(135deg, var(--card-bg) 0%, rgba(201,168,76,0.04) 100%);
+    }
+    .media-card.podcast .media-card-type {
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--border2);
+    }
+    .podcast-wave {
+      padding: 1.5rem 1.5rem 0;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .podcast-wave span {
+      display: inline-block;
+      width: 3px;
+      background: var(--gold);
+      opacity: 0.5;
+      border-radius: 2px;
+      animation: wave 1.2s ease-in-out infinite;
+    }
+    .podcast-wave span:nth-child(1) { height: 12px; animation-delay: 0s; }
+    .podcast-wave span:nth-child(2) { height: 20px; animation-delay: 0.1s; }
+    .podcast-wave span:nth-child(3) { height: 16px; animation-delay: 0.2s; }
+    .podcast-wave span:nth-child(4) { height: 24px; animation-delay: 0.3s; }
+    .podcast-wave span:nth-child(5) { height: 14px; animation-delay: 0.4s; }
+    .podcast-wave span:nth-child(6) { height: 20px; animation-delay: 0.5s; }
+    .podcast-wave span:nth-child(7) { height: 10px; animation-delay: 0.6s; }
+    @keyframes wave {
+      0%, 100% { opacity: 0.3; transform: scaleY(0.7); }
+      50% { opacity: 0.8; transform: scaleY(1); }
+    }
+
+    /* ─── PHOTO GALLERY ─── */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .photo-grid .gallery-item { overflow: hidden; position: relative; }
+    .photo-grid .gallery-item:first-child { grid-column: span 2; }
+    .photo-grid .gallery-item img {
+      width: 100%; height: 100%;
+      min-height: 280px;
+      object-fit: cover;
+      filter: var(--img-filter);
+      transition: transform 0.6s ease, filter 0.5s;
+      display: block;
+      cursor: pointer;
+    }
+    .photo-grid .gallery-item:hover img { transform: scale(1.04); filter: grayscale(0%) sepia(3%); }
+    /* All photo items are shown/hidden via JS — no CSS hidden class needed */
+    .gallery-item.photo-hidden { display: none; }
+
+    /* ─── VIDEO GALLERY ─── */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .video-card {
+      cursor: pointer;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: transform 0.3s ease, border-color 0.3s;
+    }
+    .video-card:hover { transform: translateY(-5px); border-color: var(--gold); }
+    .thumbnail-container { position: relative; width: 100%; height: 200px; overflow: hidden; }
+    .video-thumb {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .video-card:hover .video-thumb { transform: scale(1.05); }
+    .play-btn {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(201,168,76,0.9);
+      color: #fff;
+      font-size: 24px;
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      display: flex; justify-content: center; align-items: center;
+      opacity: 0.85;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .video-card:hover .play-btn { opacity: 1; transform: translate(-50%, -50%) scale(1.12); }
+    .video-title {
+      padding: 1rem 1.2rem;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      color: var(--text);
+      border-top: 1px solid var(--border);
+    }
+    /* All video items shown/hidden via JS */
+    .video-card.video-hidden { display: none; }
+
+    /* ─── SHOW MORE / LESS BUTTON ─── */
+    .show-more-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 2.5rem;
+    }
+    .btn-show-more {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: transparent;
+      border: 1px solid var(--border2);
+      padding: 0.85rem 2.2rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      transition: border-color 0.3s, background 0.3s, color 0.3s;
+    }
+    .btn-show-more:hover {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.07);
+      color: var(--gold-lt);
+    }
+    .btn-show-more .arrow {
+      display: inline-block;
+      transition: transform 0.35s;
+      font-size: 0.75rem;
+    }
+    .btn-show-more.expanded .arrow {
+      transform: rotate(180deg);
+    }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonials-section {
+      padding: 7rem 4rem;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      transition: background 0.5s, border-color 0.5s;
+    }
+    .testimonials-inner { max-width: 1200px; margin: 0 auto; }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .testimonial-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      transition: background 0.5s, border-color 0.3s, transform 0.3s;
+      position: relative;
+    }
+    .testimonial-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+    .testimonial-card::before {
+      content: '"';
+      font-family: 'Cinzel', serif;
+      font-size: 3rem;
+      color: var(--gold);
+      opacity: 0.25;
+      line-height: 0.8;
+      display: block;
+      margin-bottom: 1rem;
+    }
+    .testimonial-text { font-style: italic; font-size: 0.95rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; }
+    .testimonial-name { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.1em; color: var(--text); font-weight: 600; }
+    .testimonial-role { font-family: 'Raleway', sans-serif; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-top: 0.25rem; }
+
+    /* ─── CONTACT ─── */
+    .contact-section {
+      padding: 7rem 4rem;
+      background: var(--form-section-bg);
+      border-top: 1px solid var(--border);
+      transition: background 0.5s, border-color 0.5s;
+    }
+    .contact-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    a.contact-link {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      padding: 0.7rem 0.8rem;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    a.contact-link:hover { border-color: var(--border2); background: rgba(201,168,76,0.07); }
+    [data-theme="dark"] a.contact-link:hover .contact-text,
+    [data-theme="dark"] a.contact-link:hover .contact-text strong,
+    [data-theme="dark"] a.contact-link:hover .contact-text span { color: #E8C97A; }
+    [data-theme="dark"] a.contact-link:hover .contact-icon { border-color: #C9A84C; background: rgba(201,168,76,0.1); }
+    [data-theme="dark"] a.contact-link:hover .contact-icon svg { fill: #E8C97A; }
+    [data-theme="light"] a.contact-link:hover .contact-text,
+    [data-theme="light"] a.contact-link:hover .contact-text span { color: #1A1408; }
+    [data-theme="light"] a.contact-link:hover .contact-text strong { color: #6A4A10; }
+    [data-theme="light"] a.contact-link:hover .contact-icon { border-color: #9A7020; background: rgba(139,100,20,0.08); }
+    [data-theme="light"] a.contact-link:hover .contact-icon svg { fill: #6A4A10; }
+
+    .contact-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .contact-icon svg { width: 16px; height: 16px; fill: var(--gold); transition: fill 0.3s; }
+    .contact-text { font-family: 'Raleway', sans-serif; font-size: 0.8rem; color: var(--muted); transition: color 0.3s; }
+    .contact-text strong {
+      display: block; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.3rem; font-weight: 400; transition: color 0.3s;
+    }
+
+    /* ─── SUPPORT US BLOCK ─── */
+    .support-block {
+      margin-top: 2.5rem;
+      padding: 2rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.4s, background 0.5s;
+    }
+    .support-block::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(to right, var(--gold), transparent);
+    }
+    .support-block:hover { border-color: var(--gold-dim); }
+    .support-block-label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .support-block-label::before { content: '✦'; font-size: 0.5rem; }
+    .support-block-heading {
+      font-family: 'Cinzel', serif;
+      font-size: 1.3rem;
+      color: var(--text);
+      margin-bottom: 0.8rem;
+      font-weight: 400;
+    }
+    .support-block-text {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 1.2rem;
+    }
+    .support-ways {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.4rem;
+    }
+    .support-way {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.8rem;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .support-way:hover { border-color: var(--gold); background: rgba(201,168,76,0.07); }
+    .support-block-link {
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--btn-primary-text);
+      background: var(--gold);
+      padding: 0.7rem 1.4rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+    .support-block-link:hover { background: var(--gold-lt); }
+
+    .join-form { display: flex; flex-direction: column; gap: 1rem; }
+    .join-form input, .join-form textarea {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 1rem 1.2rem;
+      font-family: 'Raleway', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      outline: none;
+      transition: border-color 0.3s, background 0.5s, color 0.5s;
+      resize: none;
+    }
+    .join-form input:focus, .join-form textarea:focus { border-color: var(--gold); }
+    .join-form input::placeholder, .join-form textarea::placeholder { color: var(--muted); opacity: 0.5; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 2.5rem 4rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg);
+      transition: background 0.5s, border-color 0.5s;
+    }
+    .footer-logo { font-family: 'Cinzel', serif; font-size: 0.8rem; letter-spacing: 0.2em; color: var(--gold); }
+    .footer-copy { font-family: 'Raleway', sans-serif; font-size: 0.62rem; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; }
+    .social-links { display: flex; gap: 1.5rem; }
+    .social-links a { font-family: 'Raleway', sans-serif; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.3s; }
+    .social-links a:hover { color: var(--gold); }
+
+    /* ─── DIVIDER ─── */
+    .gold-divider { display: flex; align-items: center; gap: 1rem; margin: 2.5rem 0; }
+    .gold-divider::before, .gold-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--border2), transparent); }
+    .gold-divider-symbol { color: var(--gold); font-size: 0.6rem; letter-spacing: 0.3em; }
+
+    /* ─── SCROLL TO TOP ─── */
+    #scrollTopBtn {
+      position: fixed; bottom: 2.2rem; right: 2.2rem; z-index: 300;
+      width: 48px; height: 48px;
+      background: var(--gold);
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden; transform: translateY(12px);
+      transition: opacity 0.35s, visibility 0.35s, transform 0.35s, background 0.3s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+    }
+    #scrollTopBtn.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+    #scrollTopBtn:hover { background: var(--gold-lt); }
+    #scrollTopBtn svg { width: 20px; height: 20px; fill: #0A0806; transition: transform 0.2s; }
+    [data-theme="light"] #scrollTopBtn svg { fill: #FAF7F2; }
+    #scrollTopBtn:hover svg { transform: translateY(-2px); }
+    #scrollTopBtn::before {
+      content: 'Back to top'; position: absolute; right: calc(100% + 10px); top: 50%;
+      transform: translateY(-50%); font-family: 'Raleway', sans-serif; font-size: 0.58rem;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold);
+      white-space: nowrap; opacity: 0; transition: opacity 0.2s; pointer-events: none;
+    }
+    #scrollTopBtn:hover::before { opacity: 1; }
+
+    /* ─── LIGHTBOXES ─── */
+    .lightbox-overlay {
+      display: none; position: fixed; z-index: 9999; top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.95);
+      justify-content: center; align-items: center;
+    }
+    .lightbox-overlay.active { display: flex; }
+    .lightbox-close {
+      position: absolute; top: 20px; right: 30px;
+      color: white; font-size: 40px; cursor: pointer;
+      font-weight: 300; line-height: 1;
+      transition: color 0.3s;
+    }
+    .lightbox-close:hover { color: var(--gold); }
+    #img-lightbox img {
+      max-width: 90%; max-height: 90%;
+      border: 1px solid rgba(201,168,76,0.3);
+      animation: zoomIn 0.3s ease;
+    }
+    #form-lightbox { flex-direction: column; text-align: center; padding: 20px; }
+    #form-lightbox img { max-width: 80%; max-height: 55%; margin-bottom: 1.5rem; animation: slideUp 0.4s ease-out; }
+    #f-lightbox-name { font-family: 'Cinzel', serif; font-size: 2rem; color: var(--gold); margin: 0.5rem 0; }
+    #f-lightbox-desc { max-width: 600px; font-size: 1rem; color: rgba(255,255,255,0.75); line-height: 1.7; }
+    #video-modal { background: rgba(0,0,0,0.92); }
+    .video-modal-content {
+      position: relative; width: 85%; max-width: 900px;
+      background: #000;
+      border: 1px solid rgba(201,168,76,0.3);
+    }
+    .video-modal-inner { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; }
+    .video-modal-inner iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes scrollPulse { 0%,100%{opacity:0.4;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.15)} }
+    @keyframes zoomIn { from{transform:scale(0.7);opacity:0} to{transform:scale(1);opacity:1} }
+    @keyframes slideUp { from{transform:translateY(50px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.15s; }
+    .reveal-delay-2 { transition-delay: 0.3s; }
+    .reveal-delay-3 { transition-delay: 0.45s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (min-width: 1440px) {
+      nav { padding: 1.4rem 5rem; }
+      .nav-links { gap: 3rem; }
+    }
+    @media (min-width: 1200px) {
+      nav { padding: 1.4rem 4rem; }
+    }
+    @media (min-width: 2560px) {
+      body { max-width: 2560px; margin: 0 auto; }
+      nav { padding: 1.4rem 8rem; }
+      .hero { padding: 0 8rem 5rem; }
+      .about-section, .forms-section, .gallery-section, .media-section, .contact-section, .testimonials-section { padding: 7rem 8rem; }
+      .quote-section { padding: 6rem 8rem; }
+    }
+    @media (max-width: 1024px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { gap: 1.5rem; }
+      .nav-links a { font-size: 0.65rem; }
+      .hero { min-height: 75vh; }
+      .hero::before {
+        background: url('Hero Section Pic.jpeg') center top/cover no-repeat;
+      }
+      .about-subsection,
+      .about-full,
+      .prod-subsection,
+      .patron-subsection { grid-template-columns: 1fr; gap: 2rem; }
+      .about-subsection.reverse,
+      .prod-subsection.reverse { direction: ltr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .media-grid { grid-template-columns: 1fr 1fr; }
+      .hero-img-area {
+        display: none;
+      }
+      .patron-badge {
+        position: static;
+        margin-bottom: 2rem;
+      }
+    }
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-toggle { display: inline-flex; order: 4; }
+      .nav-links { display: none; }
+      .toggle-label-nav { display: none; }
+      .nav-theme-toggle {
+        padding: 0;
+        gap: 0;
+        width: 42px;
+        height: 42px;
+        justify-content: center;
+        order: 3;
+        margin-right: 0.5rem;
+      }
+      .theme-icon { width: 18px; height: 18px; }
+      .icon-sun svg, .icon-moon svg { width: 16px; height: 16px; }
+      .hero { 
+        height: auto;
+        min-height: 70vh;
+        padding: 2rem;
+        justify-content: center;
+      }
+      .hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: url('Hero Section Pic.jpeg') center top/cover no-repeat;
+        opacity: 0.35;
+        z-index: 0;
+      }
+      .hero-bg {
+        opacity: 0.6;
+      }
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        padding-bottom: 2.5rem;
+      }
+      .hero-img-area {
+        display: none;
+      }
+      .hero-tag { font-size: 0.55rem; margin-bottom: 0.8rem; }
+      .hero-title { font-size: clamp(2.5rem, 5vw, 4rem); margin-top: 0.5rem; }
+      .hero-subtitle { font-size: 1rem; margin-top: 0.8rem; }
+      .hero-cta { flex-direction: column; align-items: flex-start; gap: 1rem; margin-top: 1.5rem; }
+      .btn-primary, .btn-ghost { padding: 0.75rem 1.8rem; font-size: 0.62rem; }
+      .hero-img-area {
+        display: none;
+      }
+      .hero-scroll { bottom: 1.5rem; right: 2rem; font-size: 0.55rem; }
+      .scroll-line { height: 40px; }
+      .forms-grid { grid-template-columns: repeat(2,1fr); }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .media-grid { grid-template-columns: 1fr; }
+      .photo-grid { grid-template-columns: 1fr 1fr; }
+      .photo-grid .gallery-item:first-child { grid-column: span 2; }
+      .contact-inner { grid-template-columns: 1fr; }
+      .about-subsection:not(.reverse) > div:first-child,
+      .prod-subsection:not(.reverse) .prod-img-wrap {
+        order: 2;
+      }
+      .about-subsection:not(.reverse) > div:last-child,
+      .prod-subsection:not(.reverse) .prod-content-wrap {
+        order: 1;
+      }
+      footer { padding: 2rem; flex-direction: column; gap: 1rem; text-align: center; }
+      .quote-section { padding: 4rem 2rem; }
+      #scrollTopBtn { bottom: 1.2rem; right: 1.2rem; width: 42px; height: 42px; }
+    }
+    @media (max-width: 768px) {
+      .hero::before {
+        opacity: 0.32;
+        background-size: cover;
+        background-position: center top;
+      }
+      .hero-tag { font-size: 0.52rem; margin-bottom: 0.7rem; }
+      .hero-title { font-size: clamp(2.2rem, 4.5vw, 3.5rem); }
+      .hero-subtitle { font-size: 0.95rem; margin-top: 0.7rem; }
+      .hero-cta { gap: 0.8rem; margin-top: 1.2rem; }
+      .btn-primary, .btn-ghost { padding: 0.65rem 1.6rem; font-size: 0.58rem; }
+    }
+    @media (max-width: 640px) {
+      .forms-grid { grid-template-columns: 1fr; }
+      .photo-grid { grid-template-columns: 1fr; }
+      .photo-grid .gallery-item:first-child { grid-column: span 1; }
+      .hero { padding: 1.5rem; }
+      .hero-scroll { right: 1.5rem; }
+      .hero::before {
+        opacity: 0.28;
+        background-size: cover;
+        background-position: center top;
+      }
+      .nav-links.open { padding: 0.8rem 1.2rem; }
+      .hero-tag { font-size: 0.48rem; margin-bottom: 0.6rem; }
+      .hero-title { font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.1; }
+      .hero-subtitle { font-size: 0.9rem; margin-top: 0.6rem; }
+      .hero-cta { gap: 0.6rem; margin-top: 1rem; }
+      .btn-primary, .btn-ghost { padding: 0.6rem 1.4rem; font-size: 0.55rem; }
+      .scroll-line { height: 35px; }
+    }
+    @media (max-width: 480px) {
+      .hero { padding: 1.2rem; }
+      .hero-scroll { bottom: 1.2rem; right: 1.2rem; font-size: 0.5rem; }
+      .hero::before {
+        opacity: 0.25;
+        background-size: cover;
+        background-position: center top;
+      }
+      .hero-tag { font-size: 0.45rem; margin-bottom: 0.5rem; }
+      .hero-tag::before { width: 25px; }
+      .hero-title { font-size: clamp(1.5rem, 3.5vw, 2.5rem); }
+      .hero-subtitle { font-size: 0.85rem; margin-top: 0.5rem; }
+      .hero-cta { gap: 0.5rem; margin-top: 0.9rem; }
+      .btn-primary, .btn-ghost { padding: 0.55rem 1.2rem; font-size: 0.52rem; }
+      .scroll-line { height: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── NAV ─── -->
+  <nav id="mainNav">
+    <a href="#" class="nav-logo">Mohsin Babar</a>
+    <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation" onclick="toggleMenu()">
+      <span></span>
+    </button>
+    <ul class="nav-links">
+      <li class="dropdown">
+        <a class="dropbtn">About Us</a>
+        <ul class="dropdown-content">
+          <li><a href="#mission">Mission Statement</a></li>
+          <li><a href="#philosophy">Our Philosophy</a></li>
+          <li><a href="#founder">Our Founder</a></li>
+          <li><a href="#team">Our Team</a></li>
+          <li><a href="#patron">Our Patron</a></li>
+          <li><a href="#mbp">Mohsin Babar Production</a></li>
+          <li><a href="#kspa">Kathak School of Performing Arts</a></li>
+        </ul>
+      </li>
+      <li><a href="#forms">Dance Forms</a></li>
+      <li class="dropdown">
+        <a class="dropbtn">Gallery</a>
+        <ul class="dropdown-content">
+          <li><a href="#progallery">Projects</a></li>
+          <li><a href="#imggallery">Picture Gallery</a></li>
+          <li><a href="#vidgallery">Video Gallery</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropbtn">Media</a>
+        <ul class="dropdown-content">
+          <li><a href="#media-articles">Articles</a></li>
+          <li><a href="#media-podcasts">Podcasts</a></li>
+        </ul>
+      </li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" style="color:var(--gold);opacity:1;">Join a Class</a></li>
+    </ul>
+    <button class="nav-theme-toggle" onclick="toggleTheme()" title="Toggle light / dark mode" aria-label="Toggle theme">
+      <div class="theme-icon">
+        <div class="icon-sun"><svg viewBox="0 0 24 24"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0-13a1 1 0 0 0 1-1V2a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1zm0 14a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1zm9-8h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2zM4 12a1 1 0 0 0-1-1H2a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1zm14.95-6.36-.71-.71a1 1 0 0 0-1.41 1.41l.71.71a1 1 0 0 0 1.41-1.41zM6.34 17.66a1 1 0 0 0-1.41 0l-.71.71a1 1 0 1 0 1.41 1.41l.71-.71a1 1 0 0 0 0-1.41zm12.61 0-.71.71a1 1 0 0 0 1.41 1.41l.71-.71a1 1 0 0 0-1.41-1.41zM5.64 5.64a1 1 0 0 0 0-1.41l-.71-.71a1 1 0 1 0-1.41 1.41l.71.71a1 1 0 0 0 1.41 0z"/></svg></div>
+        <div class="icon-moon"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79z"/></svg></div>
+      </div>
+      <span class="toggle-label-nav" id="toggle-label">Light Mode</span>
+    </button>
+  </nav>
+
+  <!-- ─── HERO ─── -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-lines">
+      <svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="900" x2="600" y2="0" stroke="rgba(201,168,76,0.06)" stroke-width="1"/>
+        <line x1="100" y1="900" x2="700" y2="0" stroke="rgba(201,168,76,0.04)" stroke-width="1"/>
+        <circle cx="900" cy="450" r="350" fill="none" stroke="rgba(201,168,76,0.04)" stroke-width="1"/>
+        <circle cx="900" cy="450" r="250" fill="none" stroke="rgba(201,168,76,0.03)" stroke-width="1"/>
+      </svg>
+    </div>
+    <div class="hero-img-area"></div>
+    <div style="position:relative;z-index:2;">
+      <div class="hero-tag">Kathak · Sufi · Contemporary · Folk</div>
+      <h1 class="hero-title">Mohsin<br><span>Babar</span></h1>
+      <p class="hero-subtitle">Story-telling Through Movement</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn-primary">Join a Class</a>
+        <a href="#about" class="btn-ghost">Discover His Journey</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ─── QUOTE ─── -->
+  <section class="quote-section">
+    <div class="quote-inner">
+      <span class="quote-mark">"</span>
+      <p class="quote-text">Dance is a natural human state. The entire universe dances; our blood dances through our body, the waves dance on the ocean, the trees dance in the wind. Every living thing dances.</p>
+      <p class="quote-author">— Mohsin Babar</p>
+    </div>
+  </section>
+
+  <!-- ─── ABOUT ─── -->
+  <section class="about-section" id="about">
+    <div class="section-label reveal visible">About Us</div>
+
+    <!-- MISSION -->
+    <div class="about-full reveal visible" id="mission">
+      <div>
+        <h2 class="section-heading reveal reveal-delay-1 visible">Mission<br><em>Statement</em></h2>
+        <div class="about-body reveal reveal-delay-2 visible">
+          <p>To preserve, revive, and promote Kathak as a living, evolving art form in Pakistan by upholding its classical integrity, nurturing new generations of dancers through rigorous training, and making the art accessible beyond elite spaces. Through performance, education, and outreach, Mohsin Babar is committed to restoring the dignity of Kathak, destigmatizing the ghungroo as the dancer's instrument, and ensuring that this rich storytelling tradition continues to inspire, educate, and belong to all.</p>
+        </div>
+      </div>
+      <div class="subsection-img-wrap reveal reveal-delay-2 visible">
+        <img class="subsection-img" src="Mission Statement.jpg" onerror="this.parentElement.style.display='none'">
+        <div class="subsection-img-frame"></div>
+      </div>
+    </div>
+
+    <!-- PHILOSOPHY -->
+    <div class="about-subsection reveal visible" id="philosophy">
+      <div class="subsection-img-wrap reveal visible">
+        <img class="subsection-img" src="Our Philosphy.jpg" alt="Our Philosophy" onerror="this.parentElement.style.display='none'">
+        <div class="subsection-img-frame"></div>
+      </div>
+      <div>
+        <h2 class="section-heading reveal reveal-delay-1 visible">Our<br><em>Philosophy</em></h2>
+        <div class="about-body reveal reveal-delay-2 visible">
+          <p>At Mohsin Babar Productions, we believe that art must belong to everyone. Kathak, once a storytelling tradition rooted in the people, cannot survive if confined to elite spaces. Our philosophy is grounded in inclusion—opening our doors through scholarships to students who would otherwise never access classical training, and taking our performances beyond urban centres into small towns and rural communities where art is rarely experienced in its classical form. We are committed to nurturing talent wherever it exists and sharing Kathak with audiences wherever they are, because an art form does not live by being preserved in isolation, but by being practiced, seen, and shared widely.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOUNDER -->
+    <div class="about-subsection reverse reveal visible" id="founder">
+      <div>
+        <h2 class="section-heading reveal reveal-delay-1 visible">Our<br><em>Founder</em></h2>
+        <div class="about-body reveal reveal-delay-2 visible">
+          <p>Mohsin Babar is an internationally acclaimed choreographer, dancer, and performing artist, specializing in Kathak, Pakistani folk dance, Sufi dance, and contemporary/modern dance. With over 27 years of experience, he has performed across the world, including in the United States, United Kingdom, Sweden, China, Japan, India, Brunei, Malaysia, Singapore, and many other countries.</p>
+          <p>Mr. Babar is regarded as one of Pakistan's most highly trained Kathakars. He received rigorous training under two of the country's pioneering Kathak masters, Ustad Hamid Hussain Shaad Jaipuri and Ustad Shado Maharaj. He also underwent advanced training for three years under Ustad Rajendra Gangani at the National School of Drama in India.</p>
+          <p>He is the founder of Mohsin Babar Productions and the Kathak School of Performing Arts—the only institute in Karachi dedicated exclusively to teaching Kathak.</p>
+        </div>
+      </div>
+      <div class="subsection-img-wrap reveal reveal-delay-2 visible">
+        <img class="subsection-img" src="Founder.jpg" alt="Mohsin Babar — Founder" onerror="this.parentElement.style.display='none'">
+        <div class="subsection-img-frame"></div>
+      </div>
+    </div>
+
+    <!-- TEAM -->
+    <div class="about-full reveal visible" id="team">
+      <div>
+        <h2 class="section-heading reveal reveal-delay-1 visible">Our<br><em>Team</em></h2>
+        <div class="about-body reveal reveal-delay-2 visible">
+          <p>Our team is a collective of dedicated dancers and artists, trained in the discipline of Kathak and contemporary movement. Many come from underprivileged backgrounds and are supported through full scholarships, reflecting our commitment to inclusion, excellence, and cultural preservation.</p>
+        </div>
+      </div>
+      <div class="subsection-img-wrap reveal reveal-delay-2 visible">
+        <img class="subsection-img" style="aspect-ratio:16/9; object-fit:cover;" src="Our Team Final.png" alt="Our Team" onerror="this.parentElement.style.display='none'">
+        <div class="subsection-img-frame"></div>
+      </div>
+    </div>
+
+    <!-- OUR PATRON -->
+    <div class="patron-subsection reveal visible" id="patron">
+      <div class="patron-badge reveal visible">
+        <span class="patron-badge-label">Patron</span>
+        <div class="patron-badge-name">Naween A. Mangi</div>
+        <div class="patron-badge-role">Rural Development Specialist &amp; Media Professional</div>
+        <div class="patron-badge-divider"></div>
+        <div style="font-family:'Raleway',sans-serif;font-size:0.7rem;color:var(--muted);line-height:1.7;">Patron of dance-theatre as a form of cultural preservation</div>
+      </div>
+      <div class="patron-content">
+        <h2 class="section-heading reveal reveal-delay-1 visible">Our<br><em>Patron</em></h2>
+        <div class="about-body reveal reveal-delay-2 visible">
+          <p>Naween A. Mangi is a rural development specialist, social entrepreneur, media professional, writer, and patron of dance-theatre as a form of cultural preservation. She is the Founder and Managing Trustee of the Ali Hasan Mangi Memorial Trust (AHMMT), an integrated rural development organization that has worked across over 500 villages in Sindh on education, healthcare, infrastructure development, and emergency response.</p>
+          <p>Educated at Karachi Grammar School, she went on to earn a Bachelor's degree in Economics from the London School of Economics, and later a Master's degree in Journalism from New York University, specializing in Business and Economic Reporting.</p>
+          <p>Naween began her career as a financial journalist, contributing to publications including The Friday Times, Herald Magazine, and Asia Times. She served as Pakistan Bureau Chief for Bloomberg News from 2006 to 2015, establishing the agency's first bureau in Pakistan and significantly expanding international visibility of the country's economic landscape.</p>
+          <p>Since 2015, she has focused on philanthropy, cultural work, and writing. She contributes regularly to Dawn, teaches journalism courses at the Institute of Business Administration (IBA) Centre for Excellence in Journalism, and continues to lead AHMMT's development work across Sindh — work that earned the trust an award from the University of California, Berkeley in 2018.</p>
+          <p>Alongside her development and media work, Naween is a committed patron and producer of dance-theatre, supporting it as a vital form of cultural preservation and social dialogue. Through collaborations with artists and institutions, she has helped bring classical and contemporary dance-theatre to new audiences — including community-based performances that address social issues and reclaim dance as a serious artistic and cultural practice.</p>
+        </div>
+        <div class="patron-tags">
+          <span class="patron-tag">Rural Development</span>
+          <span class="patron-tag">Media &amp; Journalism</span>
+          <span class="patron-tag">Cultural Preservation</span>
+          <span class="patron-tag">Dance-Theatre</span>
+          <span class="patron-tag">Social Entrepreneurship</span>
+          <span class="patron-tag">Bloomberg Bureau Chief</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── MBP — grid layout matching about-subsection ─── -->
+    <div class="prod-subsection reveal visible" id="mbp">
+      <div class="prod-img-wrap reveal visible">
+        <img class="prod-img" src="MB Logo.jpg" alt="Mohsin Babar Productions" onerror="this.parentElement.style.background='var(--bg3)'">
+      </div>
+      <div class="prod-content-wrap reveal reveal-delay-1 visible">
+        <div class="prod-tag">Productions</div>
+        <h2 class="section-heading">Mohsin Babar<br><em>Productions</em></h2>
+        <div class="about-body">
+          <p>We tell stories through movement. From ballet-style dance theatre to short thematic dance films, our work explores the human experience—devotion, identity, and transformation. Rooted in Kathak, and drawing from Sufi, contemporary, and folk traditions, we create performances that speak to the present while carrying the depth of tradition. Alongside this, we develop community theatre that engages with urgent social themes, taking art beyond the stage and into the lives of people.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── KSPA — grid layout, reversed, matching about-subsection ─── -->
+    <div class="prod-subsection reverse reveal visible" id="kspa">
+      <div class="prod-content-wrap reveal reveal-delay-1 visible">
+        <div class="prod-tag">Academy</div>
+        <h2 class="section-heading">Kathak School of<br><em>Performing Arts</em></h2>
+        <div class="about-body">
+          <p>The Mohsin Babar Kathak School of Performing Arts offers structured, intensive training in Kathak grounded in classical tradition. With a strong focus on inclusion, the school provides full scholarships to talented students, creating a space where dedication—not background—defines opportunity.</p>
+        </div>
+      </div>
+      <div class="prod-img-wrap reveal reveal-delay-2 visible">
+        <img class="prod-img" src="MB Academy.jpg" alt="Kathak School of Performing Arts" onerror="this.parentElement.style.background='var(--bg3)'">
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="about-stats reveal visible">
+      <div class="stat-item">
+        <div class="stat-num">27+</div>
+        <div class="stat-label">Years of Mastery</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">4</div>
+        <div class="stat-label">Dance Disciplines</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">Int'l</div>
+        <div class="stat-label">Recognition</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── DANCE FORMS ─── -->
+  <section class="forms-section" id="forms">
+    <div class="forms-header">
+      <div class="section-label reveal visible">Disciplines</div>
+      <h2 class="section-heading reveal reveal-delay-1 visible">The Dance <em>Forms</em></h2>
+    </div>
+    <div class="forms-grid reveal visible">
+      <div class="form-card" onclick="openFormLightbox(this)">
+        <img class="form-img" src="./Mohsin Babar — Performing Artist_files/1-1.jpg" alt="Kathak" onerror="this.style.display='none'">
+        <div class="form-number">01</div>
+        <div class="form-name">Kathak</div>
+        <div class="form-desc">Classical North Indian dance featuring intricate footwork, rapid spins, and expressive storytelling.</div>
+      </div>
+      <div class="form-card" onclick="openFormLightbox(this)">
+        <img class="form-img" src="./Mohsin Babar — Performing Artist_files/Sufi-e1722839723716.jpg" alt="Sufi" onerror="this.style.display='none'">
+        <div class="form-number">02</div>
+        <div class="form-name">Sufi</div>
+        <div class="form-desc">Whirling movements and rhythmic grace embodying devotion and unity with the divine.</div>
+      </div>
+      <div class="form-card" onclick="openFormLightbox(this)">
+        <img class="form-img" src="./Mohsin Babar — Performing Artist_files/contemporary-e1722839852739.jpg" alt="Contemporary" onerror="this.style.display='none'">
+        <div class="form-number">03</div>
+        <div class="form-name">Contemporary</div>
+        <div class="form-desc">A versatile form blending modern, classical, and jazz — emphasizing fluidity and expression.</div>
+      </div>
+      <div class="form-card" onclick="openFormLightbox(this)">
+        <img class="form-img" src="./Mohsin Babar — Performing Artist_files/IMG-20240723-WA0029-e1722889884376.jpg" alt="Folk" onerror="this.style.display='none'">
+        <div class="form-number">04</div>
+        <div class="form-name">Folk</div>
+        <div class="form-desc">Vibrant communal performances reflecting the customs, stories, and everyday life of a community.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PROJECTS ─── -->
+  <section class="gallery-section" id="progallery">
+    <div class="gallery-header">
+      <div class="section-label reveal visible" id="portfolio">Portfolio</div>
+      <h2 class="section-heading reveal reveal-delay-1 visible">Our <em>Projects</em></h2>
+    </div>
+    <div class="projects-grid reveal visible">
+      <div class="project-card">
+        <div class="project-iframe-wrap">
+          <iframe src="https://www.youtube.com/embed/q4zsl7zrnA4" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="project-content">
+          <div class="project-number">Project 01</div>
+          <h3 class="project-title">Khwaab</h3>
+          <p class="project-desc">A dance-theatre production exploring the essential human experience—of love, loss, longing, and transformation—told entirely through movement. Written, choreographed, and directed by Mohsin Babar, Khwaab brings together Kathak, contemporary, Sufi, and folk dance forms in a layered narrative that is both deeply personal and universally resonant.</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-iframe-wrap">
+          <iframe src="https://www.youtube.com/embed/WQfTkUOo1YY" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="project-content">
+          <div class="project-number">Project 02</div>
+          <h3 class="project-title">Soch Badlen, Zindagi Sawarein</h3>
+          <p class="project-desc">A community theatre production developed to spark dialogue around family planning and the realities of everyday life in rural Sindh. Performed across multiple villages, it brings theatre directly into communities, using storytelling as a tool for awareness and reflection.</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-iframe-wrap">
+          <iframe src="https://www.youtube.com/embed/kKvtzitfAbk" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="project-content">
+          <div class="project-number">Project 03</div>
+          <h3 class="project-title">In C</h3>
+          <p class="project-desc">A contemporary dance work reinterpreted in Pakistan by Mohsin Babar Productions, supported by Goethe-Institut in Karachi. Performed at the Karachi Arts Council World Festival 2025, the piece brought an international vocabulary of movement into dialogue with a local ensemble of dancers.</p>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-iframe-wrap">
+          <iframe src="https://www.youtube.com/embed/AFE6H6bg9bs" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="project-content">
+          <div class="project-number">Project 04 Coming Soon</div>
+          <h3 class="project-title">Aqsaam-e-Naach</h3>
+          <p class="project-desc">A curated dance production exploring the many dimensions of Kathak—from traditional repertoire to contemporary and fusion pieces—revealing the depth, versatility, and storytelling power of the form. A statement of purpose: to restore Kathak's place in our cultural landscape.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── PHOTO GALLERY — default 6, +6 per show more, collapse to 6 ─── -->
+  <section class="gallery-section" id="imggallery">
+    <div class="gallery-header">
+      <div class="section-label reveal visible">Gallery</div>
+      <h2 class="section-heading reveal reveal-delay-1 visible">Photo <em>Gallery</em></h2>
+    </div>
+    <div class="photo-grid reveal visible" id="photoGrid">
+      <!-- Items 1–10: visible by default (data-index used by JS) -->
+      <div class="gallery-item" data-photo-index="1"><img src="Gallery 001.jpg" alt="Performance" onclick="openImgLightbox(this.src)"></div>
+      <div class="gallery-item" data-photo-index="2"><img src="Gallery 002.jpg" alt="Performance" onclick="openImgLightbox(this.src)"></div>
+      <div class="gallery-item" data-photo-index="3"><img src="Gallery 003.jpg" alt="Performance" onclick="openImgLightbox(this.src)"></div>
+      <div class="gallery-item" data-photo-index="4"><img src="Gallery 004.jpg" alt="Performance" onclick="openImgLightbox(this.src)"></div>
+      <div class="gallery-item" data-photo-index="5"><img src="Gallery 005.jpg" alt="Performance" onclick="openImgLightbox(this.src)"></div>
+      <!-- Items 6–10: add your photos here (slot 6–10) -->
+      <div class="gallery-item" data-photo-index="6"><img src="Gallery 006.jpg" alt="Performance" onclick="openImgLightbox(this.src)" onerror="this.closest('.gallery-item').style.display='none'"></div>
+      <div class="gallery-item" data-photo-index="7"><img src="Gallery 007.jpg" alt="Performance" onclick="openImgLightbox(this.src)" onerror="this.closest('.gallery-item').style.display='none'"></div>
+      <div class="gallery-item" data-photo-index="8"><img src="Gallery 008.jpg" alt="Performance" onclick="openImgLightbox(this.src)" onerror="this.closest('.gallery-item').style.display='none'"></div>
+      <div class="gallery-item" data-photo-index="9"><img src="Gallery 009.jpg" alt="Performance" onclick="openImgLightbox(this.src)" onerror="this.closest('.gallery-item').style.display='none'"></div>
+      <div class="gallery-item" data-photo-index="10"><img src="Gallery 010.jpg" alt="Performance" onclick="openImgLightbox(this.src)" onerror="this.closest('.gallery-item').style.display='none'"></div>
+      <!-- Items 11–16: second batch (show more group 1) -->
+      <div class="gallery-item photo-hidden" data-photo-index="11"><img src="Gallery 011.jpg" alt="Performance" onclick="openImgLightbox(this.src)" onerror="this.closest('.gallery-item').style.display='none'"></div>
+      <div class="gallery-item photo-hidden" data-photo-index="12"><img src="Gallery 012.jpg" alt="Performance" onclick="openImgLightbox(this.src)" onerror="this.closest('.gallery-item').style.display='none'"></div>
+      <div class="gallery-item photo-hidden" data-photo-index="13"><img src="Gallery 013.jpg" alt="Performance" onclick="openImgLightbox(this.src)" onerror="this.closest('.gallery-item').style.display='none'"></div>
+      <div class="gallery-item photo-hidden" data-photo-index="14"><img src="Gallery 014.jpg" alt="Performance" onclick="openImgLightbox(this.src)" onerror="this.closest('.gallery-item').style.display='none'"></div>
+      <div class="gallery-item photo-hidden" data-photo-index="15"><img src="Gallery 015.jpg" alt="Performance" onclick="openImgLightbox(this.src)" onerror="this.closest('.gallery-item').style.display='none'"></div>
+      <div class="gallery-item photo-hidden" data-photo-index="16"><img src="Gallery 016.jpg" alt="Performance" onclick="openImgLightbox(this.src)" onerror="this.closest('.gallery-item').style.display='none'"></div>
+    </div>
+    <div class="show-more-wrap">
+      <button class="btn-show-more" id="photoToggleBtn" onclick="showMorePhotos()">
+        Show More Photos <span class="arrow">▼</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ─── VIDEO GALLERY — default 3, +3 per show more, collapse to 3 ─── -->
+  <section class="gallery-section" id="vidgallery">
+    <div class="gallery-header">
+      <div class="section-label reveal visible">Watch</div>
+      <h2 class="section-heading reveal reveal-delay-1 visible">Video <em>Gallery</em></h2>
+    </div>
+    <div class="video-grid reveal visible" id="videoGrid">
+      <!-- Videos 1–6: visible by default -->
+      <div class="video-card" data-video-index="1" onclick="openVideoModal('NvX3AI3qghk')">
+        <div class="thumbnail-container">
+          <img src="https://img.youtube.com/vi/NvX3AI3qghk/maxresdefault.jpg" alt="Kathak Classical Solo" class="video-thumb">
+          <div class="play-btn">&#9658;</div>
+        </div>
+        <div class="video-title">Kathak Classical Solo — Mohsin Babar</div>
+      </div>
+      <div class="video-card" data-video-index="2" onclick="openVideoModal('UWw_cCmZr_A')">
+        <div class="thumbnail-container">
+          <img src="https://img.youtube.com/vi/UWw_cCmZr_A/maxresdefault.jpg" alt="Sufi Whirling" class="video-thumb">
+          <div class="play-btn">&#9658;</div>
+        </div>
+        <div class="video-title">Sufi Whirling Devotion</div>
+      </div>
+      <div class="video-card" data-video-index="3" onclick="openVideoModal('kKvtzitfAbk')">
+        <div class="thumbnail-container">
+          <img src="https://img.youtube.com/vi/kKvtzitfAbk/maxresdefault.jpg" alt="Contemporary Fusion" class="video-thumb">
+          <div class="play-btn">&#9658;</div>
+        </div>
+        <div class="video-title">Contemporary Fusion Dance</div>
+      </div>
+      <div class="video-card" data-video-index="4" onclick="openVideoModal('AFE6H6bg9bs')">
+        <div class="thumbnail-container">
+          <img src="https://img.youtube.com/vi/AFE6H6bg9bs/maxresdefault.jpg" alt="Folk Dance" class="video-thumb">
+          <div class="play-btn">&#9658;</div>
+        </div>
+        <div class="video-title">Folk Dance Energy</div>
+      </div>
+      <div class="video-card" data-video-index="5" onclick="openVideoModal('WQfTkUOo1YY')">
+        <div class="thumbnail-container">
+          <img src="https://img.youtube.com/vi/WQfTkUOo1YY/maxresdefault.jpg" alt="Choreography Showcase" class="video-thumb">
+          <div class="play-btn">&#9658;</div>
+        </div>
+        <div class="video-title">Choreography Showcase</div>
+      </div>
+      <div class="video-card" data-video-index="6" onclick="openVideoModal('q4zsl7zrnA4')">
+        <div class="thumbnail-container">
+          <img src="https://img.youtube.com/vi/q4zsl7zrnA4/maxresdefault.jpg" alt="Behind the Scenes" class="video-thumb">
+          <div class="play-btn">&#9658;</div>
+        </div>
+        <div class="video-title">Behind the Scenes &amp; Rehearsal</div>
+      </div>
+    </div>
+    <div class="show-more-wrap">
+      <button class="btn-show-more" id="videoToggleBtn" onclick="showMoreVideos()">
+        Show More Videos <span class="arrow">▼</span>
+      </button>
+    </div>
+  </section>
+
+    <!-- ─── MEDIA / ARTICLES & PODCASTS ─── -->
+  <section class="media-section" id="media">
+    <div class="media-inner">
+      <div class="section-label reveal visible">Press &amp; Media</div>
+      <h2 class="section-heading reveal reveal-delay-1 visible">Articles &amp; <em>Podcasts</em></h2>
+      <p class="reveal reveal-delay-2 visible" style="color:var(--muted);font-size:1rem;max-width:650px;">Voices from the press, conversations on culture, and the stories behind the dance — Mohsin Babar in media.</p>
+
+      <!-- ARTICLES -->
+      <div id="media-articles" style="margin-top:4rem;">
+        <div class="section-label reveal visible" style="margin-bottom:2rem;">Articles</div>
+        <div class="media-grid reveal visible">
+          <div class="media-card">
+            <span class="media-card-type">Article</span>
+            <div class="media-card-content">
+              <div class="media-card-source">The News — You Magazine</div>
+              <h3 class="media-card-title">A Life in Rhythm</h3>
+              <p class="media-card-desc">An in-depth feature on Mohsin Babar's journey as a Kathakar — his decades of training, his mission to preserve classical dance in Pakistan, and the personal costs and rewards of a life devoted entirely to art.</p>
+              <a href="https://www.thenews.pk/magazine/you/1405942-a-life-in-rhythm" target="_blank" rel="noopener noreferrer" class="media-card-link">Read Article</a>
+            </div>
+          </div>
+          <div class="media-card">
+            <span class="media-card-type">Article</span>
+            <div class="media-card-content">
+              <div class="media-card-source">The Express Tribune</div>
+              <h3 class="media-card-title">The Dancer &amp; His Craft</h3>
+              <p class="media-card-desc">The Express Tribune profiles Mohsin Babar and his ongoing work to bring Kathak back into public consciousness, exploring the social and cultural barriers that have long kept classical dance marginalised in Pakistan.</p>
+              <a href="https://tribune.com.pk/story/2592465/1" target="_blank" rel="noopener noreferrer" class="media-card-link">Read Article</a>
+            </div>
+          </div>
+          <div class="media-card">
+            <span class="media-card-type">Article</span>
+            <div class="media-card-content">
+              <div class="media-card-source">HMag Pakistan</div>
+              <h3 class="media-card-title">Preserving Kathak, Breaking Elitism, Building a Future</h3>
+              <p class="media-card-desc">HMag Pakistan speaks with Mohsin Babar on his vision for classical dance in Pakistan — how to preserve its authenticity while dismantling the elitism that has historically kept it out of reach for most communities.</p>
+              <a href="https://www.hmagpak.com/24-Jan-2026/mohsin-babar-preserving-kathak-breaking-elitism-building-future-classical-dance-pakistan" target="_blank" rel="noopener noreferrer" class="media-card-link">Read Article</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PODCASTS -->
+      <div id="media-podcasts" style="margin-top:4rem;">
+        <div class="section-label reveal visible" style="margin-bottom:2rem;">Podcasts</div>
+        <div class="media-grid reveal visible">
+          <div class="media-card podcast">
+            <div class="podcast-wave">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <span class="media-card-type">Podcast</span>
+            <div class="media-card-content">
+              <div class="media-card-source">Facebook — Audio / Video</div>
+              <h3 class="media-card-title">In Conversation with Mohsin Babar</h3>
+              <p class="media-card-desc">A candid podcast conversation with Mohsin Babar on his artistic journey, the challenges of keeping Kathak alive in Pakistan, the scholarship programme, and what it means to dedicate a life entirely to classical dance.</p>
+              <a href="https://web.facebook.com/share/v/1DuTzQ1Yh6/" target="_blank" rel="noopener noreferrer" class="media-card-link">Listen Now</a>
+            </div>
+          </div>
+          <div class="media-card podcast">
+            <div class="podcast-wave">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <span class="media-card-type">Podcast</span>
+            <div class="media-card-content">
+              <div class="media-card-source">Facebook — Audio / Video</div>
+              <h3 class="media-card-title">Kathak, Culture &amp; Community</h3>
+              <p class="media-card-desc">Mohsin Babar speaks about the intersection of dance, identity, and community — how Kathak connects people across backgrounds, and why taking art into rural spaces is as important as performing on the grandest stages.</p>
+              <a href="https://web.facebook.com/share/r/1bXAktpsXx/" target="_blank" rel="noopener noreferrer" class="media-card-link">Listen Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ─── TESTIMONIALS ─── -->
+  <section class="testimonials-section">
+    <div class="testimonials-inner">
+      <div class="section-label reveal visible">Voices</div>
+      <h2 class="section-heading reveal reveal-delay-1 visible">What People <em>Say</em></h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal visible">
+          <p class="testimonial-text">My guru Mohsin Babar is the best Kathakar in Pakistan. If anyone is interested in learning Kathak, look no further than him.</p>
+          <div class="testimonial-name">Usman Javed</div>
+          <div class="testimonial-role">TV Actor</div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-1 visible">
+          <p class="testimonial-text">There is no other like Mohsin Babar. He is unquestionably the best performing artist Pakistan has ever produced. His soul shines right through him when he is on stage.</p>
+          <div class="testimonial-name">Naween Mangi</div>
+          <div class="testimonial-role">Fan</div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-2 visible">
+          <p class="testimonial-text">Sir Mohsin helped me uncover my love of Kathak that I didn't even know I had. He is gentle, kind, and motivates me to do my best.</p>
+          <div class="testimonial-name">Sitara</div>
+          <div class="testimonial-role">Student, Age 10</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CONTACT ─── -->
+  <section class="contact-section" id="contact">
+    <div class="contact-inner">
+      <div>
+        <div class="section-label reveal visible">Get in Touch</div>
+        <h2 class="section-heading reveal reveal-delay-1 visible">Join a <em>Class</em></h2>
+        <p class="reveal reveal-delay-2 visible" style="color:var(--muted);font-size:1rem;margin-top:0.5rem;">Begin your journey into classical dance. Reach out to register or learn more about upcoming classes and performances.</p>
+
+        <a href="https://wa.me/923008220770?text=Assalamualaikum, I hope you are doing well. I would like to get more information regarding your classes, including schedule, registration details, and fee structure. Thank you." target="_blank" rel="noopener noreferrer" class="contact-link reveal reveal-delay-2 visible">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24a11.36 11.36 0 003.55.57c.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.55.11.35.03.74-.24 1.02l-2.21 2.22z"/></svg>
+          </div>
+          <div class="contact-text">
+            <strong>Phone / WhatsApp</strong>
+            <span>+92 300 822 0770</span>
+          </div>
+        </a>
+
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=info@mohsinbabar.com" target="_blank" rel="noopener noreferrer" class="contact-link reveal reveal-delay-3 visible">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          </div>
+          <div class="contact-text">
+            <strong>Email</strong>
+            <span>info@mohsinbabar.com</span>
+          </div>
+        </a>
+
+        <!-- SUPPORT US BLOCK -->
+        <div class="support-block reveal visible">
+          <div class="support-block-label">Support Us</div>
+          <h3 class="support-block-heading">Keep Kathak Alive</h3>
+          <p class="support-block-text">Become a patron and help keep Kathak alive. Support a student through scholarship, sponsor a performance, or partner with us to take this art to new communities — your support sustains both the artist and the audience.</p>
+          <div class="support-ways">
+            <span class="support-way">Become a Patron</span>
+            <span class="support-way">Sponsor a Student</span>
+            <span class="support-way">Sponsor a Performance</span>
+            <span class="support-way">Community Partnership</span>
+          </div>
+          <a href="https://wa.me/923008220770?text=I%20would%20like%20to%20support%20Mohsin%20Babar%20Productions" target="_blank" rel="noopener noreferrer" class="support-block-link">Get in Touch to Support</a>
+        </div>
+
+        <div class="gold-divider reveal visible" style="margin-top:2.5rem;"><span class="gold-divider-symbol">✦</span></div>
+        <div class="social-links reveal visible">
+          <a href="https://www.youtube.com/@MohsinBabarProductions" target="_blank" rel="noopener noreferrer">YouTube</a>
+          <a href="https://www.instagram.com/mohsinbabarkathakar/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.facebook.com/im.mohsinbabarkhan/" target="_blank" rel="noopener noreferrer">Facebook</a>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-1 visible">
+        <div class="join-form">
+          <input type="text" id="dance-name" placeholder="Your Full Name">
+          <input type="email" id="dance-email" placeholder="Email Address">
+          <input type="tel" id="dance-phone" placeholder="Phone Number">
+          <textarea id="dance-msg" rows="4" placeholder="Tell us about your dance background and interest..."></textarea>
+          <button class="btn-primary" onclick="sendToWhatsApp()" style="align-self:flex-start;border:none;cursor:pointer;">Send Message</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer>
+    <div class="footer-logo">Mohsin Babar</div>
+    <div class="footer-copy">© 2026 Mohsin Babar Productions. All rights reserved.</div>
+    <div class="social-links">
+      <a href="https://www.youtube.com/@MohsinBabarProductions" target="_blank">YouTube</a>
+      <a href="https://www.instagram.com/mohsinbabarkathakar/" target="_blank">Instagram</a>
+      <a href="https://www.facebook.com/im.mohsinbabarkhan/" target="_blank">Facebook</a>
+    </div>
+  </footer>
+
+  <!-- ─── SCROLL TO TOP ─── -->
+  <button id="scrollTopBtn" onclick="scrollToTop()" aria-label="Scroll to top">
+    <svg viewBox="0 0 24 24"><path d="M12 4l-8 8h5v8h6v-8h5z"/></svg>
+  </button>
+
+  <!-- ─── LIGHTBOX: IMAGE ─── -->
+  <div id="img-lightbox" class="lightbox-overlay" onclick="closeLightbox('img-lightbox')">
+    <span class="lightbox-close">&times;</span>
+    <img id="img-lightbox-img" src="" alt="Gallery image" style="max-width:90%;max-height:90%;border:1px solid rgba(201,168,76,0.3);animation:zoomIn 0.3s ease;">
+  </div>
+
+  <!-- ─── LIGHTBOX: FORM CARD ─── -->
+  <div id="form-lightbox" class="lightbox-overlay" onclick="closeLightbox('form-lightbox')" style="flex-direction:column;text-align:center;padding:20px;">
+    <span class="lightbox-close">&times;</span>
+    <img id="f-lightbox-img" src="" style="max-width:80%;max-height:55%;margin-bottom:1.5rem;animation:slideUp 0.4s ease-out;" alt="">
+    <h2 id="f-lightbox-name" style="font-family:'Cinzel',serif;font-size:2rem;color:var(--gold);margin:0.5rem 0;"></h2>
+    <p id="f-lightbox-desc" style="max-width:600px;font-size:1rem;color:rgba(255,255,255,0.75);line-height:1.7;margin:0 auto;"></p>
+  </div>
+
+  <!-- ─── VIDEO MODAL ─── -->
+  <div id="video-modal" class="lightbox-overlay" onclick="closeVideoModal()">
+    <span class="lightbox-close">&times;</span>
+    <div class="video-modal-content" onclick="event.stopPropagation()">
+      <div class="video-modal-inner">
+        <iframe id="video-modal-iframe" src="" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ─── THEME ─── */
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      document.getElementById('toggle-label').textContent = isDark ? 'Dark Mode' : 'Light Mode';
+    }
+
+    function closeMenu() {
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.remove('open', 'submenu');
+      document.querySelector('.nav-toggle').setAttribute('aria-expanded', 'false');
+      navLinks.removeAttribute('data-active-dropdown'); 
+      const backBtn = navLinks.querySelector('.back-btn');
+      if (backBtn) backBtn.remove();
+      document.querySelectorAll('.dropdown-content').forEach(dc => dc.style.display = 'none');
+    }
+
+    function toggleMenu() {
+      const navLinks = document.querySelector('.nav-links');
+      const isOpen = navLinks.classList.contains('open');
+      // Only open menu if screen is mobile (max-width: 900px)
+      if (!isOpen && window.innerWidth <= 900) {
+        // Opening menu
+        navLinks.classList.add('open');
+        document.querySelector('.nav-toggle').setAttribute('aria-expanded', 'true');
+        // Add back button only on mobile
+        const backBtn = document.createElement('li');
+        backBtn.className = 'back-btn';
+        backBtn.innerHTML = '← Back';
+        backBtn.onclick = (e) => {
+          e.preventDefault();
+          if (navLinks.classList.contains('submenu')) {
+            // Close sub-menu, show main menu
+            navLinks.classList.remove('submenu');
+            // Hide all dropdown-content
+            document.querySelectorAll('.nav-links .dropdown-content').forEach(dc => dc.style.display = 'none');
+          } else {
+            // Close menu
+            closeMenu();
+          }
+        };
+        navLinks.insertBefore(backBtn, navLinks.firstChild);
+        // Add click listeners to dropdown buttons (dropbtn) in mobile menu
+        document.querySelectorAll('.nav-links.open .dropbtn').forEach(btn => {
+          btn.onclick = (e) => {
+            e.preventDefault();
+            const dropdown = btn.closest('.dropdown');
+            const content = dropdown.querySelector('.dropdown-content');
+            if (content) {
+              // Hide other dropdowns
+              document.querySelectorAll('.nav-links .dropdown-content').forEach(dc => {
+                dc.style.display = 'none';
+              });
+              // Show this one
+              content.style.display = 'block';
+              navLinks.classList.add('submenu');
+            }
+          };
+        });
+        // Add click listeners to all regular links (not dropbtn) to close menu after navigation
+        document.querySelectorAll('.nav-links a:not(.dropbtn)').forEach(a => {
+          a.addEventListener('click', (e) => {
+            // Allow default navigation behavior, then close menu
+            setTimeout(() => closeMenu(), 100);
+          }, { once: true });
+        });
+      } else {
+        // Closing menu
+        closeMenu();
+      }
+    }
+
+    // Close menu when clicking outside of it
+    document.addEventListener('click', (e) => {
+      const nav = document.getElementById('mainNav');
+      const navLinks = nav.querySelector('.nav-links');
+      const navToggle = nav.querySelector('.nav-toggle');
+      if (!nav.contains(e.target) && navLinks.classList.contains('open')) {
+        closeMenu();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 900) {
+        const navLinks = document.querySelector('.nav-links');
+        if (navLinks.classList.contains('open')) {
+          navLinks.classList.remove('open');
+          document.querySelector('.nav-toggle').setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+
+    /* ─── REVEAL ON SCROLL ─── */
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(r => { if (!r.classList.contains('visible')) observer.observe(r); });
+
+    /* ─── NAV SCROLL ─── */
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+      document.getElementById('scrollTopBtn').classList.toggle('visible', window.scrollY > 200);
+    });
+
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+    /* ─── WHATSAPP FORM ─── */
+    function sendToWhatsApp() {
+      const name    = document.getElementById('dance-name').value.trim();
+      const email   = document.getElementById('dance-email').value.trim();
+      const phone   = document.getElementById('dance-phone').value.trim();
+      const message = document.getElementById('dance-msg').value.trim();
+      if (!name) { alert('Please enter your name.'); return; }
+      const msg = `*New Dance Inquiry*%0A%0A*Name:* ${encodeURIComponent(name)}%0A*Email:* ${encodeURIComponent(email)}%0A*Phone:* ${encodeURIComponent(phone)}%0A*Message:* ${encodeURIComponent(message)}`;
+      window.open(`https://wa.me/923008220770?text=${msg}`, '_blank');
+    }
+
+    /* ─── LIGHTBOXES ─── */
+    function closeLightbox(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+    function openImgLightbox(src) {
+      document.getElementById('img-lightbox-img').src = src;
+      document.getElementById('img-lightbox').classList.add('active');
+    }
+    function openFormLightbox(card) {
+      const img  = card.querySelector('.form-img');
+      const name = card.querySelector('.form-name').innerText;
+      const desc = card.querySelector('.form-desc').innerText;
+      document.getElementById('f-lightbox-img').src = img ? img.src : '';
+      document.getElementById('f-lightbox-name').innerText = name;
+      document.getElementById('f-lightbox-desc').innerText = desc;
+      document.getElementById('form-lightbox').classList.add('active');
+    }
+    function openVideoModal(videoId) {
+      const origin = (window.location.origin && window.location.origin !== 'null') ? window.location.origin : 'https://mohsinbabar.com';
+      document.getElementById('video-modal-iframe').src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&origin=${origin}`;
+      document.getElementById('video-modal').classList.add('active');
+    }
+    function closeVideoModal() {
+      document.getElementById('video-modal-iframe').src = '';
+      document.getElementById('video-modal').classList.remove('active');
+    }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        ['img-lightbox','form-lightbox','video-modal'].forEach(id => {
+          document.getElementById(id).classList.remove('active');
+        });
+        document.getElementById('video-modal-iframe').src = '';
+      }
+    });
+
+    /* ─── PHOTO GALLERY — default 6 visible, show more adds 6, show less collapses to 6 ─── */
+    const PHOTO_DEFAULT = 6;
+    const PHOTO_STEP    = 6;
+    let photoVisible    = PHOTO_DEFAULT;
+
+    function renderPhotos() {
+      const items = document.querySelectorAll('#photoGrid .gallery-item[data-photo-index]');
+      const total = items.length;
+      items.forEach(el => {
+        const idx = parseInt(el.dataset.photoIndex, 10);
+        if (idx <= photoVisible) {
+          el.classList.remove('photo-hidden');
+        } else {
+          el.classList.add('photo-hidden');
+        }
+      });
+      const btn = document.getElementById('photoToggleBtn');
+      const hasMore = photoVisible < total;
+      const canLess = photoVisible > PHOTO_DEFAULT;
+      if (!hasMore && !canLess) {
+        btn.style.display = 'none';
+        return;
+      }
+      btn.style.display = '';
+      if (!hasMore) {
+        // all shown — show "Show Less"
+        btn.classList.add('expanded');
+        btn.innerHTML = 'Show Less <span class="arrow">▼</span>';
+        btn.onclick = showLessPhotos;
+      } else {
+        btn.classList.remove('expanded');
+        btn.innerHTML = 'Show More Photos <span class="arrow">▼</span>';
+        btn.onclick = showMorePhotos;
+      }
+    }
+
+    function showMorePhotos() {
+      photoVisible += PHOTO_STEP;
+      renderPhotos();
+    }
+
+    function showLessPhotos() {
+      photoVisible = PHOTO_DEFAULT;
+      renderPhotos();
+      document.getElementById('imggallery').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ─── VIDEO GALLERY — default 3, show more adds 3, show less collapses to 3 ─── */
+    const VIDEO_DEFAULT = 3;
+    const VIDEO_STEP    = 3;
+    let videoVisible    = VIDEO_DEFAULT;
+
+    function renderVideos() {
+      const cards = document.querySelectorAll('#videoGrid .video-card[data-video-index]');
+      const total = cards.length;
+      cards.forEach(el => {
+        const idx = parseInt(el.dataset.videoIndex, 10);
+        if (idx <= videoVisible) {
+          el.classList.remove('video-hidden');
+        } else {
+          el.classList.add('video-hidden');
+        }
+      });
+      const btn = document.getElementById('videoToggleBtn');
+      const hasMore = videoVisible < total;
+      const canLess = videoVisible > VIDEO_DEFAULT;
+      if (!hasMore && !canLess) {
+        btn.style.display = 'none';
+        return;
+      }
+      btn.style.display = '';
+      if (!hasMore) {
+        btn.classList.add('expanded');
+        btn.innerHTML = 'Show Less <span class="arrow">▼</span>';
+        btn.onclick = showLessVideos;
+      } else {
+        btn.classList.remove('expanded');
+        btn.innerHTML = 'Show More Videos <span class="arrow">▼</span>';
+        btn.onclick = showMoreVideos;
+      }
+    }
+
+    function showMoreVideos() {
+      videoVisible += VIDEO_STEP;
+      renderVideos();
+    }
+
+    function showLessVideos() {
+      videoVisible = VIDEO_DEFAULT;
+      renderVideos();
+      document.getElementById('vidgallery').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ─── INIT ─── */
+    renderPhotos();
+    renderVideos();
+  </script>
+</body>
+</html>
